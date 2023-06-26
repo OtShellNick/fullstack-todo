@@ -1,0 +1,46 @@
+.auth {
+    width: 250px;
+    max-height: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+
+    &__select {
+        display: flex;
+        gap: 10px;
+        justify-content: space-evenly;
+        
+        & div {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            transition: all .3s linear;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--dark);
+            }
+        }
+
+        &-active {
+            border-bottom: 1px solid orange;
+            background-color: var(--dark);
+        }
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        & div {
+            color: var(--red);
+        }
+    }
+}
