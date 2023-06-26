@@ -4,8 +4,10 @@ import { useFormik } from 'formik';
 import validation from '@helpers/validation';
 
 import './Register.scss';
+import { useRegisterMutation } from "../../../store/userStore";
 
 const Register = () => {
+    const [register, resp] = useRegisterMutation();
 
     const {
         handleSubmit,
@@ -21,8 +23,15 @@ const Register = () => {
             passwordConfirm: '',
         },
         validationSchema: validation.RegisterSchema,
-        onSubmit: values => {
-            console.log(values);
+        onSubmit: async values => {
+
+            try {
+                const data = await register(values);
+                console.log(data);
+                console.log('resp', resp);
+            } catch (err) {
+                console.error(err);
+            }
         },
     });
 
