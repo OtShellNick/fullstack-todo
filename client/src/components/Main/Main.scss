@@ -101,5 +101,31 @@
                 }
             }
         }
+
+        &_item {
+            display: flex;
+            justify-content: space-between;
+
+            &-left {
+                display: flex;
+                gap: 10px;
+
+                & input {
+                    
+                }
+            }
+
+            &-right {
+                display: flex;
+                gap: 10px;
+
+                & svg {
+                    width: 24px;
+                    height: 24px;
+                    fill: var(--white);
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }

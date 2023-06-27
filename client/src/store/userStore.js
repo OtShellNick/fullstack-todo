@@ -53,9 +53,42 @@ export const apiSlice = createApi({
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             }),
+            transformResponse: resp => resp.sort((a, b) => a.id - b.id),
             providesTags: ['User'],
+        }),
+        updateTodo: builder.mutation({
+            query: (payload) => ({
+                url: '/todo/update',
+                method: 'POST',
+                body: payload,
+                headers: {
+                    'Authorization': localStorage.getItem('testAuthorization'),
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            invalidatesTags: ['User'],
+        }),
+        deleteTodo: builder.mutation({
+            query: (payload) => ({
+                url: '/todo/delete',
+                method: 'DELETE',
+                body: payload,
+                headers: {
+                    'Authorization': localStorage.getItem('testAuthorization'),
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            invalidatesTags: ['User'],
         }),
     }),
 });
 
-export const { useGetPostsQuery, useRegisterMutation, useLoginMutation, useAddTodoMutation, useGetTodosQuery } = apiSlice;
+export const {
+    useGetPostsQuery,
+    useRegisterMutation,
+    useLoginMutation,
+    useAddTodoMutation,
+    useGetTodosQuery,
+    useUpdateTodoMutation,
+    useDeleteTodoMutation,
+} = apiSlice;

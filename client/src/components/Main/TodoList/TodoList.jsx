@@ -1,11 +1,45 @@
 import React from 'react';
 
-const TodoList = ({ list }) => {
+import { useUpdateTodoMutation, useDeleteTodoMutation } from '@store/userStore';
+
+import IconEdit from '@assets/edit.svg?jsx';
+import IconDelete from '@assets/delete.svg?jsx';
+
+const TodoList = ({ list, refresh }) => {
+    const [update] = useUpdateTodoMutation();
+    const [deleteTodo] = useDeleteTodoMutation();
 
     return <ul className='main__wrapper_list'>
-        {list.map(({ name, isDone }, index) => {
+        {list.map(({ id, name, isDone }, index) => {
 
-            return <li key={name + index}>{name}</li>
+            return <li key={name + index} className='main__wrapper_item'>
+                <div className='main__wrapper_item-left'>
+                    <input
+                        checked={isDone}
+                        type="checkbox"
+                        onChange={async e => {
+                            const { checked } = e.target;
+                            try {
+                                await update({ id, isDone: checked });
+                                await refresh();
+                            } catch (err) {
+                                console.error('update error', err);
+                            }
+                        }} />
+                    {name}
+                </div>
+                <div className='main__wrapper_item-right'>
+                    <IconEdit />
+                    <IconDelete onClick={async () => {
+                        try {
+                            await deleteTodo({ id });
+                            await refresh();
+                        } catch (error) {
+                            console.error('delete error', error);
+                        }
+                    }} />
+                </div>
+            </li>
         })}
     </ul>
 };

@@ -38,7 +38,7 @@ const Main = () => {
             <div className='main__wrapper_heading'>Todos</div>
             <div className='main__wrapper_content'>
                 <AddToDo refecth={refetch} />
-                {data && data.length > 0 && <TodoList list={data} />}
+                {data && data.length > 0 && <TodoList refresh={refetch} list={data} />}
             </div>
         </div>
     </main>

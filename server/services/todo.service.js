@@ -1,4 +1,5 @@
-const { createTodo, getTodoList } = require('./../actions/todo.actions');
+const { Errors: { MoleculerError } } = require('moleculer');
+const { createTodo, getTodoList, updateTodo, deleteTodo } = require('./../actions/todo.actions');
 
 module.exports = {
     name: 'todo',
@@ -42,6 +43,50 @@ module.exports = {
                 }
             }
         },
+        update: {
+            rest: 'POST /update',
+            params: {
+                id: { type: 'number', optoinal: false },
+                name: { type: 'string', optional: true },
+                isDone: { type: 'boolean', optional: true },
+            },
+            handler: async ({ params }) => {
+                const { id, name, isDone } = params;
+
+                try {
+                    return await updateTodo({ id, name, isDone });
+                } catch (err) {
+                    console.error('error create todo', err);
+                    throw new MoleculerError(
+                        err.message || 'Internal server error',
+                        err.code || 500,
+                        err.type || 'INTERNAL_SERVER_ERROR',
+                        err.data || { error: 'Internal server' }
+                    );
+                }
+            }
+        },
+        delete: {
+            rest: 'DELETE /delete',
+            params: {
+                id: { type: 'number', optional: false }
+            },
+            handler: async ({ params }) => {
+                const { id } = params;
+
+                try {
+                    return await deleteTodo(id);
+                } catch (err) {
+                    console.error('error create todo', err);
+                    throw new MoleculerError(
+                        err.message || 'Internal server error',
+                        err.code || 500,
+                        err.type || 'INTERNAL_SERVER_ERROR',
+                        err.data || { error: 'Internal server' }
+                    );
+                }
+            }
+        }
     },
 
 }
