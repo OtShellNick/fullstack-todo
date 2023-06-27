@@ -1,0 +1,30 @@
+.main {
+
+    &__header {
+        height: 70px;
+        border-bottom: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 25px;
+
+        &_logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        &_button {
+            color: var(--white);
+            background-color: var(--background-body);
+            border: 1px solid gray;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--dark);
+            }
+        }
+    }
+}
