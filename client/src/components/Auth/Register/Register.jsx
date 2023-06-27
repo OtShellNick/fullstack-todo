@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 
 import validation from '@helpers/validation';
@@ -7,7 +8,9 @@ import './Register.scss';
 import { useRegisterMutation } from "../../../store/userStore";
 
 const Register = () => {
-    const [register, resp] = useRegisterMutation();
+    const [register] = useRegisterMutation();
+    const [error, setError] = useState('');
+    const nav = useNavigate();
 
     const {
         handleSubmit,
@@ -23,14 +26,22 @@ const Register = () => {
             passwordConfirm: '',
         },
         validationSchema: validation.RegisterSchema,
-        onSubmit: async values => {
+        onSubmit: async (values) => {
+            setError('');
 
             try {
-                const data = await register(values);
-                console.log(data);
-                console.log('resp', resp);
+                const { data, error } = await register(values);
+
+                if (data) {
+                    localStorage.setItem('testAuthorization', data.token);
+                    nav('/');
+                };
+
+                if (error) {
+                    setError(error.data.message);
+                }
             } catch (err) {
-                console.error(err);
+                console.log('err register', err);
             }
         },
     });
@@ -66,6 +77,7 @@ const Register = () => {
             value={values.passwordConfirm}
         />
         {errors.passwordConfirm && touched.passwordConfirm && <div>{errors.passwordConfirm}</div>}
+        {error && <div>{error}</div>}
         <button type="submit">Submit</button>
     </form>
 };

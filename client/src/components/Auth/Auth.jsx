@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Login from './Login/Login';
 import Register from './Register/Register';
 
 import './Auth.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const token = localStorage.getItem('testAuthorization');
+    const nav = useNavigate();
+
+    useEffect(() => {
+        if (token) nav('/');
+    }, [])
 
     return <main className='main'>
         <div className='auth'>

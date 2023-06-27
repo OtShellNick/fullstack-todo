@@ -20,15 +20,19 @@ module.exports = {
 
                     if (!user) {
                         user = await createUser({ email, password });
-                        return await loginUser(user);
+                        return { token: await loginUser(user) };
                     }
 
-                    throw new MoleculerError('User already exists', 409);
+                    throw new MoleculerError('User already exists', 409, 'ALREADY_EXISTS', { error: 'User already exists' });
                 } catch (err) {
                     console.error(err);
-                    throw new MoleculerError('Internal server error', 500);
+                    throw new MoleculerError(
+                        err.message || 'Internal server error',
+                        err.code || 500,
+                        err.type || 'INTERNAL_SERVER_ERROR',
+                        err.data || { error: 'Internal server' }
+                    );
                 }
-                console.log('params', params);
             }
         }
     }
