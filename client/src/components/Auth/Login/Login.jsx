@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { useLoginMutation } from '@store/userStore';
 
 import validation from '@helpers/validation';
 
 import './Login.scss';
 
 const Login = () => {
+    const [login] = useLoginMutation();
+    const [error, setError] = useState('');
+    const nav = useNavigate();
 
     const {
         handleSubmit,
@@ -20,8 +25,24 @@ const Login = () => {
             password: '',
         },
         validationSchema: validation.LoginSchema,
-        onSubmit: values => {
-            console.log(values);
+        onSubmit: async values => {
+
+            try {
+                const { data, error } = await login(values);
+
+                console.log(data, error)
+                if (data) {
+                    localStorage.setItem('testAuthorization', data.token);
+                    nav('/');
+                }
+
+                if (error) {
+                    setError(error.data.message);
+                    throw new Error(error.data.message);
+                }
+            } catch (e) {
+                console.log('login error', e.message);
+            }
         },
     });
 
@@ -46,6 +67,7 @@ const Login = () => {
             value={values.password}
         />
         {errors.password && touched.password && <div>{errors.password}</div>}
+        {error && <div>{error}</div>}
         <button type="submit">Submit</button>
     </form>
 };

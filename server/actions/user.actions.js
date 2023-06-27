@@ -47,5 +47,6 @@ module.exports = {
     getUserByEmail,
     createUser,
     updateUser,
-    loginUser
+    loginUser,
+    hash
 }
