@@ -1,4 +1,5 @@
-const { getUserByEmail } = require('./../actions/user.actions');
+const { Errors: { MoleculerError } } = require('moleculer');
+const { getUserByEmail, createUser, loginUser } = require('./../actions/user.actions');
 
 module.exports = {
     name: 'auth',
@@ -12,12 +13,20 @@ module.exports = {
             },
             handler: async ({ params, ctx }) => {
                 const { email, password } = params;
+                let user = null;
 
                 try {
-                    const user = await getUserByEmail(email);
-                    console.log(user);
+                    [user] = await getUserByEmail(email);
+
+                    if (!user) {
+                        user = await createUser({ email, password });
+                        return await loginUser(user);
+                    }
+
+                    throw new MoleculerError('User already exists', 409);
                 } catch (err) {
                     console.error(err);
+                    throw new MoleculerError('Internal server error', 500);
                 }
                 console.log('params', params);
             }
