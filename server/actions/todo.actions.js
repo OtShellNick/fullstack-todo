@@ -5,6 +5,11 @@ const createTodo = async data => {
     return { ...data, isDone: false, id };
 };
 
+const getTodoList = async userId => {
+    return knex('todo').where({ userId });
+}
+
 module.exports = {
-    createTodo
+    createTodo,
+    getTodoList
 }

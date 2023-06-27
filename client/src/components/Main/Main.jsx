@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetTodosQuery } from '@store/userStore';
 
 import AddToDo from './AddToDo/AddToDo';
+import TodoList from './TodoList/TodoList';
 
 import './Main.scss';
 
 const Main = () => {
     const token = localStorage.getItem('testAuthorization');
     const nav = useNavigate();
+    const { data, error, refetch } = useGetTodosQuery();
 
     useEffect(() => {
+        console.log(error)
         if (!token) nav('/auth');
-    }, []);
+
+        if (error && error.data.code === 401) {
+            localStorage.removeItem('testAuthorization');
+            nav('/auth');
+        }
+    }, [error]);
 
     return <main className='main'>
         <div className='main__header'>
@@ -28,7 +37,8 @@ const Main = () => {
         <div className='main__wrapper'>
             <div className='main__wrapper_heading'>Todos</div>
             <div className='main__wrapper_content'>
-                <AddToDo />
+                <AddToDo refecth={refetch} />
+                {data && data.length > 0 && <TodoList list={data} />}
             </div>
         </div>
     </main>

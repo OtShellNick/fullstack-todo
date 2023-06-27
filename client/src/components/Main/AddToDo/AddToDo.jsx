@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useAddTodoMutation } from '@store/userStore';
 import validation from '@helpers/validation';
 
-const AddToDo = () => {
+const AddToDo = ({ refecth }) => {
     const [addTodo] = useAddTodoMutation();
     const nav = useNavigate();
 
@@ -21,7 +21,7 @@ const AddToDo = () => {
             name: '',
         },
         validationSchema: validation.TodosSchema,
-        onSubmit: async values => {
+        onSubmit: async (values, { resetForm }) => {
 
             try {
                 const { data, error } = await addTodo(values);
@@ -31,7 +31,8 @@ const AddToDo = () => {
                     nav('/auth');
                 }
 
-                console.log(data, error);
+                await refecth();
+                resetForm();
             } catch (e) {
                 console.log('login error', e.message);
             }

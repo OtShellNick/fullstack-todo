@@ -44,7 +44,18 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        getTodos: builder.query({
+            query: () => ({
+                url: '/todo/get',
+                method: 'GET',
+                headers: {
+                    'Authorization': localStorage.getItem('testAuthorization'),
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            providesTags: ['User'],
+        }),
     }),
 });
 
-export const { useGetPostsQuery, useRegisterMutation, useLoginMutation, useAddTodoMutation } = apiSlice;
+export const { useGetPostsQuery, useRegisterMutation, useLoginMutation, useAddTodoMutation, useGetTodosQuery } = apiSlice;

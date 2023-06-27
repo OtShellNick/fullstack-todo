@@ -82,5 +82,24 @@
                 }
             }
         }
+
+        &_list {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+
+            & li {
+                padding: 15px 5px;
+                border-top: 1px solid gray;
+
+                &:last-of-type {
+                    border-bottom: 1px solid gray;
+                }
+
+                &:nth-child(2n) {
+                    background-color: var(--dark);
+                }
+            }
+        }
     }
 }
