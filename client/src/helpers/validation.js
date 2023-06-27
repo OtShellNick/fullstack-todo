@@ -29,4 +29,8 @@ const LoginSchema = Yup.object().shape({
         .required('Required'),
 });
 
-export default { RegisterSchema, LoginSchema };
+const TodosSchema = Yup.object().shape({
+    name: Yup.string().required('Required')
+})
+
+export default { RegisterSchema, LoginSchema, TodosSchema };

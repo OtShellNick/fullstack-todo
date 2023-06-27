@@ -27,4 +27,60 @@
             }
         }
     }
+
+    &__wrapper {
+        width: 80vw;
+        height: 80vh;
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin: auto;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        &_heading {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            background-color: #84756B;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom: 1px solid gray;
+            font-size: 18px;
+        }
+
+        &_content {
+            height: calc(100% - 41px);
+            padding: 10px;
+        }
+
+        &_form {
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+
+            & input {
+                padding: 10px;
+                border: 1px solid gray;
+                outline: none;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+            & button {
+                color: var(--white);
+                background-color: var(--background-body);
+                border: 1px solid gray;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--dark);
+                }
+            }
+        }
+    }
 }

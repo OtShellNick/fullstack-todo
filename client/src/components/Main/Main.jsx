@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import AddToDo from './AddToDo/AddToDo';
+
 import './Main.scss';
 
 const Main = () => {
@@ -22,6 +24,12 @@ const Main = () => {
                 className='main__header_button'>
                 Logout
             </button>
+        </div>
+        <div className='main__wrapper'>
+            <div className='main__wrapper_heading'>Todos</div>
+            <div className='main__wrapper_content'>
+                <AddToDo />
+            </div>
         </div>
     </main>
 };

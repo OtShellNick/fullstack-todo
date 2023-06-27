@@ -1,7 +1,7 @@
 const knex = require('./../db');
 const { tokens, secret } = require('./../config/jwt');
 const { createHash } = require('crypto');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const hash = password => createHash('sha256').update(password).digest('hex');
 
@@ -19,6 +19,8 @@ const generateToken = (userId, tokenType) => {
 };
 
 const getUserByEmail = async email => await knex('user').where({ email });
+
+const getUserById = async id => await knex('user').where({ id });
 
 const createUser = async user => {
     const hashPassword = hash(user.password);
@@ -45,6 +47,7 @@ const loginUser = async user => {
 
 module.exports = {
     getUserByEmail,
+    getUserById,
     createUser,
     updateUser,
     loginUser,

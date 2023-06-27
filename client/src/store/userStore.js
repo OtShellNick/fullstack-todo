@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8082/v1/auth',
+        baseUrl: 'http://localhost:8082/v1',
     }),
     tagTypes: ['User'],
     endpoints: (builder) => ({
@@ -12,7 +12,7 @@ export const apiSlice = createApi({
         }),
         register: builder.mutation({
             query: (payload) => ({
-                url: '/register',
+                url: '/auth/register',
                 method: 'POST',
                 body: payload,
                 headers: {
@@ -23,7 +23,7 @@ export const apiSlice = createApi({
         }),
         login: builder.mutation({
             query: (payload) => ({
-                url: '/login',
+                url: '/auth/login',
                 method: 'POST',
                 body: payload,
                 headers: {
@@ -32,7 +32,19 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        addTodo: builder.mutation({
+            query: (payload) => ({
+                url: '/todo/add',
+                method: 'POST',
+                body: payload,
+                headers: {
+                    'Authorization': localStorage.getItem('testAuthorization'),
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            invalidatesTags: ['User'],
+        }),
     }),
 });
 
-export const { useGetPostsQuery, useRegisterMutation, useLoginMutation } = apiSlice;
+export const { useGetPostsQuery, useRegisterMutation, useLoginMutation, useAddTodoMutation } = apiSlice;
