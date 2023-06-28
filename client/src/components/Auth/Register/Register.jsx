@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 
+import { useRegisterMutation } from "@store/userStore";
+
 import validation from '@helpers/validation';
 
 import './Register.scss';
-import { useRegisterMutation } from "../../../store/userStore";
 
 const Register = () => {
     const [register] = useRegisterMutation();
     const [error, setError] = useState('');
+    const [confirmLink, setConfirmLink] = useState('');
     const nav = useNavigate();
 
     const {
@@ -33,8 +35,15 @@ const Register = () => {
                 const { data, error } = await register(values);
 
                 if (data) {
-                    localStorage.setItem('testAuthorization', data.token);
-                    nav('/');
+
+                    if (data.token) {
+                        localStorage.setItem('testAuthorization', data.token);
+                        nav('/');
+                    }
+
+                    if (data.confirmLink) {
+                        setConfirmLink(data.confirmLink);
+                    }
                 };
 
                 if (error) {
@@ -47,6 +56,7 @@ const Register = () => {
     });
 
     return <form className="auth__form" onSubmit={handleSubmit}>
+        {confirmLink && <a href={confirmLink} target="_blank">Confirm Email</a>}
         <label htmlFor="email">Email Address</label>
         <input
             id="email"

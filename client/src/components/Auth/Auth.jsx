@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import Login from './Login/Login';
 import Register from './Register/Register';
 
+import { useGetRegisterQuery } from "@store/userStore";
+
 import './Auth.scss';
-import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [code, setCode] = useState();
     const token = localStorage.getItem('testAuthorization');
     const nav = useNavigate();
+    const [searchParams] = useSearchParams();
+    const { data, error } = useGetRegisterQuery(code);
+    const authCode = searchParams.get('code');
 
     useEffect(() => {
+        if (authCode) setCode(authCode);
+
+        if (data) {
+            localStorage.setItem('testAuthorization', data.token);
+            nav('/');
+        }
+
+        if (error) {
+            console.error(error);
+        }
+
         if (token) nav('/');
-    }, [])
+    }, [authCode, data])
 
     return <main className='main'>
         <div className='auth'>

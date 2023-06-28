@@ -21,6 +21,16 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        getRegister: builder.query({
+            query: (code) => ({
+                url: `/auth/confirm?code=${code}`,
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            invalidatesTags: ['User'],
+        }),
         login: builder.mutation({
             query: (payload) => ({
                 url: '/auth/login',
@@ -84,6 +94,7 @@ export const apiSlice = createApi({
 
 export const {
     useGetPostsQuery,
+    useGetRegisterQuery,
     useRegisterMutation,
     useLoginMutation,
     useAddTodoMutation,
