@@ -5,7 +5,7 @@ import { useUpdateTodoMutation, useDeleteTodoMutation } from '@store/userStore';
 import IconEdit from '@assets/edit.svg?jsx';
 import IconDelete from '@assets/delete.svg?jsx';
 
-const TodoList = ({ list, refresh }) => {
+const TodoList = ({ list, refresh, setUpdate }) => {
     const [update] = useUpdateTodoMutation();
     const [deleteTodo] = useDeleteTodoMutation();
 
@@ -29,7 +29,9 @@ const TodoList = ({ list, refresh }) => {
                     {name}
                 </div>
                 <div className='main__wrapper_item-right'>
-                    <IconEdit />
+                    <IconEdit onClick={() => {
+                        setUpdate({ id, name });
+                    }} />
                     <IconDelete onClick={async () => {
                         try {
                             await deleteTodo({ id });

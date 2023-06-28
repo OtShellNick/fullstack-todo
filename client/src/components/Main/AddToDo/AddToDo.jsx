@@ -2,11 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
-import { useAddTodoMutation } from '@store/userStore';
+import { useAddTodoMutation, useUpdateTodoMutation } from '@store/userStore';
 import validation from '@helpers/validation';
 
-const AddToDo = ({ refecth }) => {
+const AddToDo = ({ refecth, todoForUpdate, setUpdateTodo }) => {
     const [addTodo] = useAddTodoMutation();
+    const [updateTodo] = useUpdateTodoMutation();
     const nav = useNavigate();
 
     const {
@@ -18,13 +19,15 @@ const AddToDo = ({ refecth }) => {
         errors
     } = useFormik({
         initialValues: {
-            name: '',
+            name: todoForUpdate.name || '',
         },
+        enableReinitialize: true,
         validationSchema: validation.TodosSchema,
         onSubmit: async (values, { resetForm }) => {
+            const action = todoForUpdate.id ? updateTodo : addTodo;
 
             try {
-                const { data, error } = await addTodo(values);
+                const { error } = await action(todoForUpdate.id ? { ...values, id: todoForUpdate.id } : values);
 
                 if (error && error.data.code === 401) {
                     localStorage.removeItem('testAuthorization');
@@ -32,6 +35,7 @@ const AddToDo = ({ refecth }) => {
                 }
 
                 await refecth();
+                setUpdateTodo({});
                 resetForm();
             } catch (e) {
                 console.log('login error', e.message);
@@ -51,7 +55,7 @@ const AddToDo = ({ refecth }) => {
             onChange={handleChange}
             value={values.name}
         />
-        <button type="submit">Add</button>
+        <button type="submit">{todoForUpdate.id ? 'Update' : 'Add'}</button>
     </form>
 };
 

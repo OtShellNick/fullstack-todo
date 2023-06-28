@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetTodosQuery } from '@store/userStore';
 
@@ -11,6 +11,7 @@ const Main = () => {
     const token = localStorage.getItem('testAuthorization');
     const nav = useNavigate();
     const { data, error, refetch } = useGetTodosQuery();
+    const [updateTodo, setUpdateTodo] = useState({});
 
     useEffect(() => {
         console.log(error)
@@ -37,8 +38,8 @@ const Main = () => {
         <div className='main__wrapper'>
             <div className='main__wrapper_heading'>Todos</div>
             <div className='main__wrapper_content'>
-                <AddToDo refecth={refetch} />
-                {data && data.length > 0 && <TodoList refresh={refetch} list={data} />}
+                <AddToDo todoForUpdate={updateTodo} setUpdateTodo={setUpdateTodo} refecth={refetch} />
+                {data && data.length > 0 && <TodoList setUpdate={setUpdateTodo} refresh={refetch} list={data} />}
             </div>
         </div>
     </main>
