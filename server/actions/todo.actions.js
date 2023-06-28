@@ -7,7 +7,7 @@ const createTodo = async data => {
 
 const getTodoList = async (userId, page) => {
     const offset = (Number(page) - 1) * 5;
-    const { count } = await knex('todo').count('* as count').first();
+    const { count } = await knex('todo').where({ userId }).count('* as count').first();
     const todoList = await knex('todo')
         .where({ userId })
         .limit(5)
