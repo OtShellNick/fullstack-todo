@@ -15,7 +15,6 @@
         }
 
         &_button {
-            color: var(--white);
             background-color: var(--background-body);
             border: 1px solid gray;
             padding: 15px;
@@ -23,7 +22,7 @@
             cursor: pointer;
 
             &:hover {
-                background-color: var(--dark);
+                background-color: var(--hover-white);
             }
         }
     }
@@ -45,7 +44,7 @@
             display: flex;
             align-items: center;
             padding: 0 15px;
-            background-color: #84756B;
+            background-color: var(--hover-white);
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             border-bottom: 1px solid gray;
@@ -53,6 +52,7 @@
         }
 
         &_content {
+            position: relative;
             height: calc(100% - 41px);
             padding: 10px;
         }
@@ -70,7 +70,6 @@
             }
 
             & button {
-                color: var(--white);
                 background-color: var(--background-body);
                 border: 1px solid gray;
                 border-top-right-radius: 10px;
@@ -78,7 +77,7 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: var(--dark);
+                    background-color: var(--hover-white);
                 }
             }
         }
@@ -97,7 +96,7 @@
                 }
 
                 &:nth-child(2n) {
-                    background-color: var(--dark);
+                    background-color: var(--hover-white);
                 }
             }
         }
@@ -109,10 +108,6 @@
             &-left {
                 display: flex;
                 gap: 10px;
-
-                & input {
-                    
-                }
             }
 
             &-right {
@@ -124,6 +119,38 @@
                     height: 24px;
                     fill: var(--white);
                     cursor: pointer;
+                }
+            }
+        }
+
+        &_nav {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            bottom: 5%;
+            left: 0;
+            right: 0;
+            width: 100px;
+            margin: auto;
+
+            & button {
+                background-color: var(--background-body);
+                border: 1px solid gray;
+                
+                cursor: pointer;
+
+                &:last-of-type {
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                }
+
+                &:first-of-type {
+                    border-top-left-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                }
+
+                &:hover {
+                    background-color: var(--hover-white);
                 }
             }
         }

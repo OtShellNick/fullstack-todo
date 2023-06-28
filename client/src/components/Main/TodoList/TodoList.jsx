@@ -5,12 +5,12 @@ import { useUpdateTodoMutation, useDeleteTodoMutation } from '@store/userStore';
 import IconEdit from '@assets/edit.svg?jsx';
 import IconDelete from '@assets/delete.svg?jsx';
 
-const TodoList = ({ list, refresh, setUpdate }) => {
+const TodoList = ({ list: { rows }, refresh, setUpdate }) => {
     const [update] = useUpdateTodoMutation();
     const [deleteTodo] = useDeleteTodoMutation();
 
     return <ul className='main__wrapper_list'>
-        {list.map(({ id, name, isDone }, index) => {
+        {rows.map(({ id, name, isDone }, index) => {
 
             return <li key={name + index} className='main__wrapper_item'>
                 <div className='main__wrapper_item-left'>

@@ -45,15 +45,14 @@ export const apiSlice = createApi({
             invalidatesTags: ['User'],
         }),
         getTodos: builder.query({
-            query: () => ({
-                url: '/todo/get',
+            query: (page = 1) => ({
+                url: `/todo/get?page=${page}`,
                 method: 'GET',
                 headers: {
                     'Authorization': localStorage.getItem('testAuthorization'),
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             }),
-            transformResponse: resp => resp.sort((a, b) => a.id - b.id),
             providesTags: ['User'],
         }),
         updateTodo: builder.mutation({

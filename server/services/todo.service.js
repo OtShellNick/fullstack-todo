@@ -28,10 +28,11 @@ module.exports = {
         },
         get: {
             rest: "GET /get",
-            handler: async ({ meta }) => {
+            handler: async ({ params, meta }) => {
+                const { page } = params;
 
                 try {
-                    return await getTodoList(meta.user.id);
+                    return await getTodoList(meta.user.id, page);
                 } catch (err) {
                     console.error('error create todo', err);
                     throw new MoleculerError(
