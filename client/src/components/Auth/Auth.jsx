@@ -11,6 +11,7 @@ import './Auth.scss';
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [code, setCode] = useState();
+    const [passLink, setPassLink] = useState('');
     const token = localStorage.getItem('testAuthorization');
     const nav = useNavigate();
     const [searchParams] = useSearchParams();
@@ -21,8 +22,15 @@ const Auth = () => {
         if (authCode) setCode(authCode);
 
         if (data) {
-            localStorage.setItem('testAuthorization', data.token);
-            nav('/');
+
+            if (data.token) {
+                localStorage.setItem('testAuthorization', data.token);
+                nav('/');
+            }
+
+            if (data.passLink) {
+                setPassLink(data.passLink);
+            }
         }
 
         if (error) {
@@ -46,7 +54,7 @@ const Auth = () => {
                     Register
                 </div>
             </div>
-            {isLogin && <Login />}
+            {isLogin && <Login passLink={passLink} />}
             {!isLogin && <Register />}
         </div>
     </main>

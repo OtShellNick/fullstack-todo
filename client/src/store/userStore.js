@@ -31,6 +31,17 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        restore: builder.mutation({
+            query: (payload) => ({
+                url: '/auth/restore',
+                method: 'POST',
+                body: payload,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }),
+            invalidatesTags: ['User'],
+        }),
         login: builder.mutation({
             query: (payload) => ({
                 url: '/auth/login',
@@ -101,4 +112,5 @@ export const {
     useGetTodosQuery,
     useUpdateTodoMutation,
     useDeleteTodoMutation,
+    useRestoreMutation,
 } = apiSlice;

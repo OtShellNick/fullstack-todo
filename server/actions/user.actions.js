@@ -31,7 +31,7 @@ const createUser = async user => {
         confirmed: false,
     }
     const [{ id }] = await knex('user').insert(newUser).returning('id');
-    return { ...newUser, id, confirm: jwt.sign({ userId: id }, secret, { expiresIn: '1d' }) }
+    return { ...newUser, id, confirm: jwt.sign({ userId: id, type: 'CONFIRM' }, secret, { expiresIn: '1d' }) }
 };
 
 const updateUser = async (user, data) => {

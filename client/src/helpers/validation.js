@@ -29,8 +29,16 @@ const LoginSchema = Yup.object().shape({
         .required('Required'),
 });
 
+const RestoreSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Invalid email')
+        .min(6, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+});
+
 const TodosSchema = Yup.object().shape({
     name: Yup.string().required('Required')
 })
 
-export default { RegisterSchema, LoginSchema, TodosSchema };
+export default { RegisterSchema, LoginSchema, TodosSchema, RestoreSchema };

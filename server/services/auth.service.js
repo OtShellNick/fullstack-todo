@@ -1,6 +1,6 @@
 const { Errors: { MoleculerError } } = require('moleculer');
 const { getUserByEmail, createUser, loginUser, hash, getUserById } = require('./../actions/user.actions');
-const { sendLoginMessage } = require('./../actions/mail.actions');
+const { sendLoginMessage, sendRestoreMessage, sendNewPasswordMessage } = require('./../actions/mail.actions');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/jwt');
 
@@ -60,7 +60,11 @@ module.exports = {
                         throw new MoleculerError('User not found', 404, 'NOT_FOUND', { error: 'User not found' });
                     }
 
-                    return { token: await loginUser(user) };
+                    if (codeData.type === 'CONFIRM') return { token: await loginUser(user) };
+
+                    if (codeData.type === 'RESTORE') {
+                        return { passLink: await sendNewPasswordMessage(user) };
+                    }
                 } catch (err) {
                     console.error(err);
                     throw new MoleculerError(
@@ -91,6 +95,35 @@ module.exports = {
                     if (!user.confirmed) throw new MoleculerError('Confirm email!', 400, 'CONFIRM_EMAIL', { error: 'Confirm email' });
 
                     return { token: await loginUser(user) };
+                } catch (err) {
+                    console.error(err);
+                    throw new MoleculerError(
+                        err.message || 'Internal server error',
+                        err.code || 500,
+                        err.type || 'INTERNAL_SERVER_ERROR',
+                        err.data || { error: 'Internal server' }
+                    );
+                }
+            }
+        },
+        restore: {
+            rest: "POST /restore",
+            params: {
+                email: { type: 'string', optional: false },
+            },
+            handler: async ({ params }) => {
+                const { email } = params;
+
+                try {
+                    let [user] = await getUserByEmail(email);
+
+                    if (!user) throw new MoleculerError('User not Found', 404, 'NOT_FOUND', { error: 'User not found' });
+
+                    if (!user.confirmed) throw new MoleculerError('Confirm email!', 400, 'CONFIRM_EMAIL', { error: 'Confirm email' });
+
+                    user = { ...user, confirm: jwt.sign({ userId: user.id, type: 'RESTORE' }, secret, { expiresIn: '1d' }) };
+
+                    return { restoreLink: await sendRestoreMessage(user, user.confirm) };
                 } catch (err) {
                     console.error(err);
                     throw new MoleculerError(
