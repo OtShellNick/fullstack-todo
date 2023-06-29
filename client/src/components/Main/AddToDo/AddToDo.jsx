@@ -15,8 +15,6 @@ const AddToDo = ({ refecth, todoForUpdate, setUpdateTodo }) => {
         handleChange,
         handleBlur,
         values,
-        touched,
-        errors
     } = useFormik({
         initialValues: {
             name: todoForUpdate.name || '',

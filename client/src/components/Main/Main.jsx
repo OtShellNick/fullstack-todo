@@ -15,7 +15,6 @@ const Main = () => {
     const [updateTodo, setUpdateTodo] = useState({});
 
     useEffect(() => {
-        console.log(error)
         if (!token) nav('/auth');
 
         if (error && error.data.code === 401) {

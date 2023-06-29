@@ -55,6 +55,8 @@ module.exports = {
         authorize: async (ctx, route, req, res) => {
             let { authorization } = req.headers;
 
+            if (!authorization) throw new Errors.MoleculerError('Unauthorized user', 401, 'UNAUTHORIZED', { message: 'Unauthorized user' });
+
             try {
                 const decodedJWT = await jwt.decode(authorization, secret);
 

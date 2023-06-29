@@ -48,10 +48,6 @@ const jsLoaders = () => {
 };
 
 const plugins = () => [
-    // new FaviconsWebpackPlugin({
-    //     logo: path.resolve(__dirname, './src/assets/favicon.png'),
-    //     prefix: 'icons-[fullhash]/',
-    // }),
     new HTMLWebpackPlugin({
         template: './src/index.html',
     }),

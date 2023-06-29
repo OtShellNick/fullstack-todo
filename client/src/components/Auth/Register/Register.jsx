@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 
 import { useRegisterMutation } from "@store/userStore";
-
 import validation from '@helpers/validation';
 
 import './Register.scss';

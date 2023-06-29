@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useLoginMutation, useRestoreMutation } from '@store/userStore';
 
+
+import { useLoginMutation, useRestoreMutation } from '@store/userStore';
 import validation from '@helpers/validation';
 
 import './Login.scss';
@@ -37,7 +38,6 @@ const Login = ({ passLink }) => {
             try {
                 const { data, error } = await action(values);
 
-                console.log(data, error)
                 if (data) {
 
                     if (data.token) {
